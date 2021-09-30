@@ -23,17 +23,17 @@ dependencies:
   mindbox_android:
     git:
       url: https://github.com/mindbox-moscow/flutter-sdk
-      ref: 895495292721aeee1a843f9604400e1345dd46ed
+      ref: pushok
       path: mindbox_android
   mindbox_ios:
     git:
       url: https://github.com/mindbox-moscow/flutter-sdk
-      ref: 895495292721aeee1a843f9604400e1345dd46ed
+      ref: pushok
       path: mindbox_ios
   mindbox_platform_interface:
     git:
       url: https://github.com/mindbox-moscow/flutter-sdk
-      ref: 895495292721aeee1a843f9604400e1345dd46ed
+      ref: pushok
       path: mindbox_platform_interface
 
 dev_dependencies:
