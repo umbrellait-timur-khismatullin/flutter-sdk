@@ -21,7 +21,10 @@ dependencies:
   flutter:
     sdk: flutter
   mindbox_platform_interface:
-    path: ../mindbox_platform_interface
+    git:
+      url: https://github.com/mindbox-moscow/flutter-sdk
+      ref: pushok-test
+      path: mindbox_platform_interface
 
 dev_dependencies:
   flutter_test:
