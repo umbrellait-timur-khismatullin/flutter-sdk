@@ -8,7 +8,9 @@ open class MindboxFlutterAppDelegate: FlutterAppDelegate{
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-                
+        // Enabling logs
+        Mindbox.logger.logLevel = .debug
+    
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
         }
@@ -62,6 +64,9 @@ open class MindboxFlutterAppDelegate: FlutterAppDelegate{
         continue userActivity: NSUserActivity,
         restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
     ) -> Bool {
+        // Передача ссылки во Flutter
+        let link = (userActivity.webpageURL?.absoluteString ?? "empty") as NSString
+        SwiftMindboxIosPlugin.linkReceived(link: link)
         // Передача ссылки, если приложение открыто через universalLink
         Mindbox.shared.track(.universalLink(userActivity))
         return true
@@ -92,4 +97,11 @@ open class MindboxFlutterAppDelegate: FlutterAppDelegate{
         
         completionHandler()
     }
+    
+//    open override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        //todo fix force unwrap
+//        Mindbox.shared.track(.universalLink(app.userActivity!))
+//        SwiftMindboxIosPlugin.linkReceived(link: url.absoluteString as NSString)
+//        return true
+//      }
 }
