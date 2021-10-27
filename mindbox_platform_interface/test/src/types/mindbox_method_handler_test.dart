@@ -131,6 +131,8 @@ void main() {
     expect(completer.isCompleted, isTrue);
     expect(await completer.future, equals('dummy-url'));
   });
+
+  // TODO(me): add sync/async tests
 }
 
 class StubMindboxMethodHandler {

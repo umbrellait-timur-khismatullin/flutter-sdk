@@ -26,4 +26,6 @@ void main() {
     // Assert
     expect(actual, 'message\ndetails');
   });
+
+  // TODO(me): add tests
 }
