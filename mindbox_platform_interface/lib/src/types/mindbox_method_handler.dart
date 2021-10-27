@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 
 import '../../mindbox_platform_interface.dart';
@@ -69,6 +71,42 @@ class MindboxMethodHandler {
         callback(call.arguments);
       }
       return Future.value(true);
+    });
+  }
+
+  // TODO(me): add to queue
+  /// Method for register a custom event.
+  void executeAsyncOperation({
+    required String operationSystemName,
+    required Map<String, dynamic> operationBody,
+  }) {
+    channel.invokeMethod('executeAsyncOperation', [
+      operationSystemName,
+      jsonEncode(operationBody),
+    ]);
+  }
+
+  // TODO(me): add to queue
+  /// Method for executing an operation synchronously.
+  void executeSyncOperation({
+    required String operationSystemName,
+    required Map<String, dynamic> operationBody,
+    Function(String)? onSuccess,
+    Function(MindboxException)? onError,
+  }) {
+    channel.invokeMethod('executeSyncOperation', [
+      operationSystemName,
+      jsonEncode(operationBody),
+    ]).then((result) {
+      if (onSuccess != null) {
+        onSuccess(result);
+      }
+    }, onError: (e) {
+      if (onError != null) {
+        final exception = MindboxException(
+            message: e.message ?? 'empty', code: e.code, details: e.details);
+        onError(exception);
+      }
     });
   }
 }
