@@ -59,7 +59,6 @@ class MindboxAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                         .shouldCreateCustomer(shouldCreateCustomer)
                         .build()
                     try {
-                        // Android SDK validation doesn't work
                         Mindbox.init(context, config)
                         result.success("initialized")
                     } catch (e: Exception) {
@@ -109,14 +108,6 @@ class MindboxAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.notImplemented()
             }
         }
-    }
-
-    private fun onSuccess(body: OperationResponse) {
-
-    }
-
-    private fun onError(error: MindboxError) {
-
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
