@@ -39,4 +39,32 @@ class MindboxAndroidPlatform extends MindboxPlatform {
   void onPushClickReceived({required Function(String link) callback}) {
     _methodHandler.handlePushClick(callback: callback);
   }
+
+  /// Method for register a custom event.
+  @override
+  void executeAsyncOperation({
+    required String operationSystemName,
+    required Map<String, dynamic> operationBody,
+  }) {
+    _methodHandler.executeAsyncOperation(
+      operationSystemName: operationSystemName,
+      operationBody: operationBody,
+    );
+  }
+
+  /// Method for executing an operation synchronously.
+  @override
+  void executeSyncOperation({
+    required String operationSystemName,
+    required Map<String, dynamic> operationBody,
+    Function(String)? onSuccess,
+    Function(MindboxException)? onError,
+  }) {
+    _methodHandler.executeSyncOperation(
+      operationSystemName: operationSystemName,
+      operationBody: operationBody,
+      onSuccess: onSuccess,
+      onError: onError,
+    );
+  }
 }

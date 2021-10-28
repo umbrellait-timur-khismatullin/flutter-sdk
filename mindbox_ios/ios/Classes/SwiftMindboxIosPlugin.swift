@@ -6,11 +6,13 @@ public class SwiftMindboxIosPlugin: NSObject, FlutterPlugin {
     private static var channel: FlutterMethodChannel?
     
     public static func register(with registrar: FlutterPluginRegistrar) {
+        Mindbox.logger.logLevel = .debug
+        Mindbox.logger.log(level: .default, message: "Test log")
         channel = FlutterMethodChannel(name: "mindbox.cloud/flutter-sdk", binaryMessenger: registrar.messenger())
         let instance = SwiftMindboxIosPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel!)
     }
-
+    
     @objc
     public static func pushClicked(response: UNNotificationResponse){
         let action = response.actionIdentifier as NSString
@@ -35,7 +37,7 @@ public class SwiftMindboxIosPlugin: NSObject, FlutterPlugin {
                     link = url
                 }
             }
-        }        
+        }
         channel?.invokeMethod("linkReceived", arguments: link)
     }
     
@@ -78,6 +80,22 @@ public class SwiftMindboxIosPlugin: NSObject, FlutterPlugin {
         case "getToken":
             Mindbox.shared.getAPNSToken {
                 token in result(token)
+            }
+        case "executeAsyncOperation":
+            let args: [String] = call.arguments as! Array<String>
+            Mindbox.shared.executeAsyncOperation(operationSystemName: args[0], operationBody: args[1])
+            result("executed")
+        case "executeSyncOperation":
+            print("sync")
+            let args: [String] = call.arguments as! Array<String>
+            Mindbox.shared.executeSyncOperation(operationSystemName: args[0], operationBody: args[1])
+            { response in
+                switch response{
+                case let .success(resultSuccess):
+                    result(resultSuccess)
+                case let .failure(resultError):
+                    result(FlutterError(code: "-1", message: resultError.localizedDescription, details: nil))
+                }
             }
         default:
             result(FlutterMethodNotImplemented)
