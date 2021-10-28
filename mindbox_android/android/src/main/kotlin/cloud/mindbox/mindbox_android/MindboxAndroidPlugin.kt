@@ -7,6 +7,8 @@ import android.os.Looper
 import androidx.annotation.NonNull
 import cloud.mindbox.mobile_sdk.Mindbox
 import cloud.mindbox.mobile_sdk.MindboxConfiguration
+import cloud.mindbox.mobile_sdk.models.MindboxError
+import cloud.mindbox.mobile_sdk.models.operation.response.OperationResponse
 import io.flutter.Log
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -77,10 +79,44 @@ class MindboxAndroidPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     result.success(token)
                 }
             }
+            "executeAsyncOperation" -> {
+                if (call.arguments is List<*>) {
+                    val args = call.arguments as List<*>
+                    Mindbox.executeAsyncOperation(context, args[0] as String, args[1] as String)
+                }
+            }
+            "executeSyncOperation" -> {
+                if (call.arguments is List<*>) {
+                    val args = call.arguments as List<*>
+                    Mindbox.executeSyncOperation(
+                        context,
+                        args[0] as String,
+                        args[1] as String,
+                        { response ->
+                            result.success(response)
+                        },
+                        { error ->
+                            result.error(
+                                error.statusCode.toString(),
+                                error.toString(),
+                                null
+                            )
+                        })
+                }
+
+            }
             else -> {
                 result.notImplemented()
             }
         }
+    }
+
+    private fun onSuccess(body: OperationResponse) {
+
+    }
+
+    private fun onError(error: MindboxError) {
+
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
