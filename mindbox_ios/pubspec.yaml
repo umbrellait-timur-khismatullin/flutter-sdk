@@ -3,9 +3,6 @@ description: The implementation of 'mindbox' plugin for the iOS platform.
 version: 1.0.0
 homepage: https://mindbox.cloud/
 repository: https://github.com/mindbox-moscow/flutter-sdk/tree/master/mindbox_ios
-#TODO remove before release
-publish_to: none
-
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"
@@ -21,7 +18,6 @@ dependencies:
   flutter:
     sdk: flutter
   mindbox_platform_interface:
-    path: ../mindbox_platform_interface
 
 dev_dependencies:
   flutter_test:
